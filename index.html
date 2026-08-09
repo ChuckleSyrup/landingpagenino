@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tom Sachs Aesthetic - Graphic Generalist</title>
+  
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&family=Stardos+Stencil:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Mengubah skema warna menjadi dominan putih (Space Program vibe) */
+      --paper: #ffffff;
+      --ink: #000000;
+      --orange: #ff4f00;
+      /* Warna selotip kertas tetap dipertahankan untuk kontras DIY */
+      --tape: rgba(235, 220, 160, 0.85); 
+    }
+
+    * { box-sizing: border-box; }
+    
+    html { 
+      scroll-behavior: smooth; 
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Space Mono", monospace;
+      background-color: var(--paper);
+      /* Grid industrial yang sedikit lebih kentara di atas warna putih */
+      background-image:
+        linear-gradient(rgba(0,0,0,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.06) 1px, transparent 1px);
+      background-size: 22px 22px;
+      overflow-x: hidden;
+    }
+
+    .app-wrapper { width: 100%; overflow: hidden; position: relative; min-height: 100vh; }
+    .app-wrapper::before {
+      content: ""; position: fixed; pointer-events: none; inset: 0; opacity: .12; z-index: 20;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+    }
+    
+    .stencil { font-family: "Stardos Stencil", serif; }
+    .marker { font-family: "Permanent Marker", cursive; }
+    .ink-rule { border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink); }
+    
+    .stamp { 
+      border: 2px solid var(--ink); 
+      border-radius: 4px; 
+      padding: .35rem .6rem; 
+      display: inline-block; 
+      transform: rotate(-2deg); 
+      box-shadow: 3px 3px 0 var(--ink); 
+      letter-spacing: .08em; 
+      background: var(--paper);
+    }
+    
+    .hero-badge { 
+      position: relative; 
+      border: 3px solid var(--ink); 
+      background: var(--paper); /* Latar putih */
+      box-shadow: 10px 10px 0 var(--ink); 
+      overflow: hidden; 
+    }
+    
+    .hero-badge::after { 
+      content: ""; 
+      position: absolute; 
+      width: 34%; 
+      height: 16px; 
+      right: -4%; 
+      top: 28px; 
+      transform: rotate(35deg); 
+      background: var(--orange); 
+      border-top: 2px solid var(--ink); 
+      border-bottom: 2px solid var(--ink); 
+    }
+    
+    .barcode { 
+      height: 58px; 
+      width: 100%; 
+      background: repeating-linear-gradient(90deg, var(--ink) 0 3px, transparent 3px 6px, var(--ink) 6px 8px, transparent 8px 12px); 
+      border: 1px solid var(--ink); 
+    }
+    
+    .label-strip { 
+      background: var(--ink); 
+      color: var(--paper); 
+      text-transform: uppercase; 
+      letter-spacing: .13em; 
+      font-size: .68rem; 
+      padding: .35rem .6rem; 
+    }
+    
+    .utility-card { 
+      position: relative; 
+      min-height: 250px; 
+      background: var(--paper); 
+      border: 2px solid var(--ink); 
+      box-shadow: 6px 6px 0 var(--ink); 
+      transition: transform .2s ease, box-shadow .2s ease; 
+    }
+    
+    .utility-card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--ink); }
+    .utility-card::before { 
+      content: ""; 
+      position: absolute; 
+      width: 82px; 
+      height: 22px; 
+      top: -11px; 
+      left: 50%; 
+      transform: translateX(-50%) rotate(-2deg); 
+      background: var(--tape); 
+      border-left: 1px solid rgba(0,0,0,.3); 
+      border-right: 1px solid rgba(0,0,0,.3); 
+      box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .number-dot { 
+      width: 46px; 
+      height: 46px; 
+      display: grid; 
+      place-items: center; 
+      border-radius: 50%; 
+      background: var(--orange); 
+      color: var(--ink);
+      border: 2px solid var(--ink); 
+      font-weight: bold; 
+    }
+    
+    .archive-folder { 
+      border: 3px solid var(--ink); 
+      border-radius: 0 0 5px 5px; 
+      background: var(--paper); 
+      position: relative; 
+      padding: 1rem; 
+      box-shadow: 8px 8px 0 var(--ink); 
+      transition: transform .2s ease, box-shadow .2s ease; 
+    }
+    
+    .archive-folder:hover, .archive-folder:focus-within { transform: translate(-4px, -4px); box-shadow: 12px 12px 0 var(--ink); }
+    .archive-folder::before { 
+      content: ""; 
+      position: absolute; 
+      width: 43%; 
+      height: 22px; 
+      left: -3px; 
+      top: -25px; 
+      border: 3px solid var(--ink); 
+      border-bottom: none; 
+      background: var(--paper); 
+      border-radius: 5px 5px 0 0; 
+    }
+    
+    .tape { 
+      position: absolute; 
+      z-index: 2; 
+      width: 85px; 
+      height: 22px; 
+      background: var(--tape); 
+      border-left: 1px solid rgba(0,0,0,.25); 
+      border-right: 1px solid rgba(0,0,0,.25); 
+      box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      opacity: .95; 
+    }
+    
+    .tape-one { top: 7px; left: -20px; transform: rotate(-30deg); }
+    .tape-two { top: 7px; right: -20px; transform: rotate(31deg); }
+    
+    .project-image-frame { 
+      overflow: hidden; 
+      border: 2px solid var(--ink); 
+      background: var(--ink); 
+      aspect-ratio: 4 / 3; 
+    }
+    
+    .project-image-frame img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      filter: saturate(.8) contrast(1.1); 
+      transition: transform .35s ease; 
+    }
+    
+    .archive-folder:hover img { transform: scale(1.04); }
+    
+    .embossed-button { 
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: .7rem; 
+      border: 2px solid var(--ink); 
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 5px 5px 0 var(--ink); 
+      text-decoration: none; 
+      text-transform: uppercase; 
+      letter-spacing: .08em; 
+      padding: .85rem 1.05rem; 
+      transition: transform .16s ease, box-shadow .16s ease; 
+    }
+    
+    .embossed-button:hover { 
+      transform: translate(3px, 3px); 
+      box-shadow: 2px 2px 0 var(--ink); 
+    }
+    
+    .embossed-button.dark-mode {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    
+    .embossed-button:focus-visible, .archive-folder:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+    
+    .arrow-note { transform: rotate(-5deg); position: relative; display: inline-block; }
+    .arrow-note::after { content: "↘"; font-size: 3rem; line-height: .5; display: inline-block; margin-left: .3rem; vertical-align: middle; }
+    
+    .footer-status { 
+      border-top: 2px solid var(--ink); 
+      background: var(--paper); 
+      color: var(--ink); 
+    }
+    
+    @media (max-width: 640px) { .hero-badge { box-shadow: 6px 6px 0 var(--ink); } .archive-folder { box-shadow: 5px 5px 0 var(--ink); } }
+  </style>
+ </head>
+ <body data-template-id="__page-root">
+  <div class="app-wrapper">
+   
+   <!-- HEADER -->
+   <header class="w-full px-5 pt-5 md:px-10 md:pt-8 bg-white">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-4 border-b-2 border-black pb-4">
+     <div class="canva-tag text-xs font-bold tracking-widest uppercase">STUDIO GENERALIST // LAB</div>
+     <div class="canva-tag stamp text-xs font-bold uppercase">MISSION: ACTIVE</div>
+    </div>
+   </header>
+   
+   <main>
+    <!-- HERO SECTION -->
+    <section class="w-full px-5 py-10 md:px-10 md:py-16 bg-white" aria-labelledby="hero-title">
+     <div class="max-w-6xl mx-auto grid lg:grid-cols-12 gap-8 items-center">
+      
+      <div class="lg:col-span-8 hero-badge p-5 sm:p-8">
+       <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-black pb-4">
+        <div class="canva-tag label-strip">SPECIFICATION SHEET</div>
+        <div class="text-xs font-bold">UNIT: GS-01 / REV.2026</div>
+       </div>
+       <div class="py-8">
+        <h1 id="hero-title" class="canva-text font-['Space_Mono'] font-bold leading-[.92] uppercase text-5xl">Generalist Graphic Operative</h1>
+        <p class="canva-text mt-6 max-w-2xl leading-relaxed">Built for manual and digital execution. Specialized in layout structures, social media logistics, mid-tier video assembly, and mechanical 2D motion.</p>
+       </div>
+       <div class="grid sm:grid-cols-[1fr_auto] gap-5 items-end border-t-2 border-black pt-5">
+        <div>
+         <p class="canva-text marker text-lg">READY FOR DEPLOYMENT</p>
+         <div class="barcode mt-3" aria-hidden="true"></div>
+        </div>
+        <a href="#contact" class="canva-button embossed-button font-bold">INITIATE CONTACT</a>
+       </div>
+      </div>
+      
+      <!-- SIDEBAR TOOLS -->
+      <aside class="lg:col-span-4 border-2 border-black bg-white p-5 rotate-1 shadow-[5px_5px_0_#000000]" aria-label="Designer information">
+       <div class="canva-tag label-strip inline-block">OPERATIVE PROFILE</div>
+       
+       <div class="mt-4 flex items-center gap-4 border-b-2 border-black pb-4">
+        <!-- Foto profil -->
+        <img src="https://lh3.googleusercontent.com/d/10TqaneX3-cYAaGp5Yd9xSyqtTl_zsWbW=s1000" alt="Foto Profil" class="w-16 h-16 object-cover border-2 border-black shadow-[2px_2px_0_#000000]">
+        <div>
+         <h3 class="font-bold uppercase text-base leading-tight">NINO, JUNIZAR</h3>
+         <p class="text-xs opacity-75 mt-1 font-mono">Graphic Generalist</p>
+        </div>
+       </div>
+
+       <dl class="mt-4 space-y-4 text-sm">
+        <div class="border-b border-black pb-3">
+         <dt class="text-xs opacity-70 uppercase tracking-widest">Primary Objective</dt>
+         <dd class="canva-text mt-1 font-bold">Layout & Social Logistics</dd>
+        </div>
+        <div class="border-b border-black pb-3">
+         <dt class="text-xs opacity-70 uppercase tracking-widest">Approved Tools</dt>
+         <dd class="canva-text mt-1 font-bold">Canva, Ps, Ai, Ae, Id, Pr, Figma</dd>
+        </div>
+        <div>
+         <dt class="text-xs opacity-70 uppercase tracking-widest">Motion Status</dt>
+         <dd class="canva-text mt-1 font-bold">Basic-Mid Video & 2D Dynamics</dd>
+        </div>
+       </dl>
+      </aside>
+     </div>
+    </section>
+    
+    <!-- EXPERTISE SECTION -->
+    <section class="w-full px-5 py-12 md:px-10 md:py-16 ink-rule bg-white" aria-labelledby="capabilities-title">
+     <div class="max-w-6xl mx-auto">
+      <div class="flex flex-wrap justify-between gap-5 items-end mb-12">
+       <div>
+        <p class="canva-text marker text-lg">Capabilities manual</p>
+        <h2 id="capabilities-title" class="canva-text stencil font-bold uppercase mt-2 text-3xl">Core Systems</h2>
+       </div>
+       <div class="canva-tag stamp text-xs font-bold uppercase">TESTED & PROVEN</div>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+       <article class="canva-card utility-card p-6 pt-9">
+        <div class="number-dot">01</div>
+        <h3 class="canva-text stencil font-bold uppercase mt-6 text-xl">Layout & Structure</h3>
+        <p class="canva-text mt-4 leading-relaxed">Systematic layout construction for editorial formats, print, and digital surfaces using professional toolsets.</p>
+        <p class="canva-text marker mt-6">FUNCTION FIRST</p>
+       </article>
+       
+       <article class="canva-card utility-card p-6 pt-9">
+        <div class="number-dot">02</div>
+        <h3 class="canva-text stencil font-bold uppercase mt-6 text-xl">Social Logistics</h3>
+        <p class="canva-text mt-4 leading-relaxed">High-frequency asset production designed to capture user attention and maintain platform velocity.</p>
+        <p class="canva-text marker mt-6">HIGH RETENTION</p>
+       </article>
+       
+       <article class="canva-card utility-card p-6 pt-9">
+        <div class="number-dot">03</div>
+        <h3 class="canva-text stencil font-bold uppercase mt-6 text-xl">Motion & Video</h3>
+        <p class="canva-text mt-4 leading-relaxed">Mid-level frame-by-frame video editing and calculated 2D motion mechanics to give assets life.</p>
+        <p class="canva-text marker mt-6">CONTROLLED TIMING</p>
+       </article>
+      </div>
+     </div>
+    </section>
+    
+    <!-- PROJECT ARCHIVE -->
+    <section class="w-full px-5 py-16 md:px-10 md:py-20 bg-white" aria-labelledby="archive-title">
+     <div class="max-w-6xl mx-auto">
+      
+      <div class="mb-16">
+       <p class="canva-text label-strip inline-block">EXHIBIT A</p>
+       <h2 id="archive-title" class="canva-text stencil font-bold uppercase mt-4 text-3xl">Project Archive</h2>
+       <p class="canva-text marker arrow-note text-xl text-[#ff4f00] mt-3">Inspect Work</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-14">
+       <article class="archive-folder">
+        <span class="tape tape-one" aria-hidden="true"></span> <span class="tape tape-two" aria-hidden="true"></span>
+        <div class="project-image-frame">
+         <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80" class="canva-image" loading="lazy" alt="Project 1">
+        </div>
+        <div class="mt-4 flex justify-between gap-3 border-b-2 border-black pb-2">
+         <h3 class="canva-text stencil font-bold uppercase">Social Feed Assembly</h3>
+         <span class="canva-tag text-xs font-bold border-2 border-black px-2 py-0.5">CANVA // IG</span>
+        </div>
+        <p class="canva-text mt-3 text-sm leading-relaxed">Calibrated social media asset deployment designed for maximum audience engagement.</p>
+       </article>
+       
+       <article class="archive-folder">
+        <span class="tape tape-one" aria-hidden="true"></span> <span class="tape tape-two" aria-hidden="true"></span>
+        <div class="project-image-frame">
+         <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80" class="canva-image" loading="lazy" alt="Project 2">
+        </div>
+        <div class="mt-4 flex justify-between gap-3 border-b-2 border-black pb-2">
+         <h3 class="canva-text stencil font-bold uppercase">Editorial Grid Layout</h3>
+         <span class="canva-tag text-xs font-bold border-2 border-black px-2 py-0.5">INDESIGN</span>
+        </div>
+        <p class="canva-text mt-3 text-sm leading-relaxed">Rigorous multi-page layout architecture for print and digital publishing.</p>
+       </article>
+       
+       <article class="archive-folder">
+        <span class="tape tape-one" aria-hidden="true"></span> <span class="tape tape-two" aria-hidden="true"></span>
+        <div class="project-image-frame">
+         <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80" class="canva-image" loading="lazy" alt="Project 3">
+        </div>
+        <div class="mt-4 flex justify-between gap-3 border-b-2 border-black pb-2">
+         <h3 class="canva-text stencil font-bold uppercase">Video Cut & Sequence</h3>
+         <span class="canva-tag text-xs font-bold border-2 border-black px-2 py-0.5">PREMIERE PRO</span>
+        </div>
+        <p class="canva-text mt-3 text-sm leading-relaxed">Mid-tier video editing focused on narrative rhythm, pacing, and sound alignment.</p>
+       </article>
+
+       <article class="archive-folder">
+        <span class="tape tape-one" aria-hidden="true"></span> <span class="tape tape-two" aria-hidden="true"></span>
+        <div class="project-image-frame">
+         <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" class="canva-image" loading="lazy" alt="Project 4">
+        </div>
+        <div class="mt-4 flex justify-between gap-3 border-b-2 border-black pb-2">
+         <h3 class="canva-text stencil font-bold uppercase">2D Motion Mechanics</h3>
+         <span class="canva-tag text-xs font-bold border-2 border-black px-2 py-0.5">AFTER EFFECTS</span>
+        </div>
+        <p class="canva-text mt-3 text-sm leading-relaxed">Clean, functional 2D motion graphics built to bring static design elements into action.</p>
+       </article>
+      </div>
+     </div>
+    </section>
+    
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="w-full px-5 py-14 md:px-10 md:py-20 bg-white ink-rule" aria-labelledby="contact-title">
+     <div class="max-w-6xl mx-auto border-2 border-black p-6 md:p-10 relative overflow-hidden bg-white shadow-[10px_10px_0_#000000]">
+      <div class="absolute right-5 top-5 w-20 h-20 rounded-full border-4 border-[#ff4f00] opacity-80" aria-hidden="true"></div>
+      
+      <p class="canva-text marker text-[#ff4f00] text-xl">MISSION CONTROL</p>
+      <h2 id="contact-title" class="canva-text stencil font-bold uppercase text-black mt-3 max-w-3xl text-4xl">Ready to execute your next project?</h2>
+      <p class="canva-text text-black mt-6 max-w-2xl leading-relaxed font-bold">From layout grids to social assets, video edits, and motion graphics—let's build something exceptional together.</p>
+      
+      <a href="https://www.upwork.com/" target="_blank" rel="noopener noreferrer" class="canva-button embossed-button dark-mode mt-8 font-bold">Establish Connection</a>
+     </div>
+    </section>
+   </main>
+   
+   <!-- FOOTER -->
+   <footer class="w-full footer-status px-5 py-6 md:px-10">
+    <div class="max-w-6xl mx-auto flex flex-wrap justify-between gap-3 text-xs font-bold tracking-widest">
+     <span class="canva-text">© 2026 STUDIO GENERALIST // ALL RIGHTS RESERVED</span> 
+     <span class="canva-text">ID: INDONESIA</span>
+    </div>
+   </footer>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+  </script>
+ </body>
+</html>
